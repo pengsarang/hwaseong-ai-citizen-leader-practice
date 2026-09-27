@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>화성AI시민리더 양성과정 하반기 · 프롬프트</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --blue:#0071e3; --link:#0066cc; --signal:#2997ff;
+  --carbon:#1d1d1f; --frost:#f5f5f7; --ice:#f4f8fb; --smoke:#333; --graphite:#474747;
+  --ash:#707070; --mist:#858585; --pebble:#e2e2e5; --hair:#d2d2d7; --white:#fff;
+  --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--frost);color:var(--carbon);font-family:var(--font);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{font-size:17px;line-height:1.47;letter-spacing:-0.016em;min-height:100vh;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea{-webkit-user-select:text;user-select:text;font-family:var(--font)}
+button{font-family:var(--font);cursor:pointer;border:0;background:none;color:inherit;letter-spacing:-0.016em}
+button:disabled{cursor:default}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%}
+
+/* ---------- 전역 내비 ---------- */
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--hair)}
+.nav-in{max-width:980px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-brand{font-size:14px;font-weight:600;letter-spacing:-0.016em;color:var(--carbon)}
+.nav-meta{font-size:12px;color:var(--ash);letter-spacing:-0.022em;display:flex;gap:12px;align-items:center}
+.nav-meta .live{display:inline-flex;align-items:center;gap:6px}
+.nav-meta .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--pebble)}
+.nav-meta .live.on::before{background:#34c759}
+
+/* ---------- 히어로 ---------- */
+.hero{text-align:center;padding:64px 20px 40px}
+.hero .eyebrow{font-size:14px;font-weight:600;color:var(--ash);letter-spacing:-0.224px;margin-bottom:12px}
+.hero h1{font-size:clamp(34px,6vw,56px);line-height:1.07;font-weight:600;letter-spacing:-0.005em;color:var(--carbon)}
+.hero h1 .thin{font-weight:300}
+.hero .tag{margin-top:12px;font-size:clamp(18px,3vw,26px);font-weight:300;line-height:1.24;color:var(--carbon)}
+.hero .credit{margin-top:24px;font-size:14px;color:var(--ash);letter-spacing:-0.224px}
+.hero .credit b{font-weight:600;color:var(--graphite)}
+
+/* ---------- 주차 버튼 ---------- */
+.weeks{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:0 20px 8px}
+.week-btn{border-radius:980px;padding:11px 20px;font-size:17px;font-weight:400;line-height:1.24;
+  border:1px solid var(--link);color:var(--link);background:transparent;transition:background .15s,color .15s,border-color .15s;
+  min-width:78px}
+.week-btn:hover:not(:disabled):not(.on){background:rgba(0,113,227,.06)}
+.week-btn.on{background:var(--blue);border-color:var(--blue);color:var(--ice)}
+.week-btn:disabled{background:var(--pebble);border-color:var(--pebble);color:var(--mist)}
+.week-btn .n{font-weight:600}
+.week-hint{text-align:center;font-size:12px;color:var(--mist);letter-spacing:-0.022em;padding:0 20px 24px}
+
+/* ---------- 주차 제목 ---------- */
+.week-head{max-width:980px;margin:0 auto;padding:24px 20px 0;text-align:center}
+.week-head h2{font-size:clamp(24px,3.4vw,32px);font-weight:600;line-height:1.14;letter-spacing:-0.005em}
+.week-head p{margin-top:8px;font-size:17px;font-weight:300;color:var(--graphite)}
+.week-head .tools{margin-top:14px;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+.week-head .count{font-size:12px;color:var(--ash);letter-spacing:-0.022em}
+
+/* ---------- 프롬프트 목록 ---------- */
+.list{max-width:980px;margin:0 auto;padding:24px 20px 96px;display:grid;gap:16px}
+.card{background:var(--white);border:1px solid var(--hair);border-radius:8px;padding:24px;
+  display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:start}
+.card .no{grid-column:1/-1;font-size:12px;font-weight:600;color:var(--signal);letter-spacing:-0.022em}
+.card h3{font-size:21px;font-weight:600;line-height:1.24;letter-spacing:-0.005em}
+.card .actions{display:flex;gap:8px;align-items:center}
+.card pre{grid-column:1/-1;margin-top:8px;font-family:var(--font);font-size:15px;line-height:1.55;letter-spacing:-0.01em;
+  color:var(--smoke);white-space:pre-wrap;word-break:break-word;background:var(--frost);border-radius:8px;padding:16px 18px;
+  border:1px solid var(--pebble);max-height:520px;overflow:auto}
+.card pre .gap{height:.55em}
+.card.collapsed pre{max-height:180px;overflow:hidden;position:relative;
+  mask-image:linear-gradient(#000 60%,transparent);-webkit-mask-image:linear-gradient(#000 60%,transparent)}
+.pill{border-radius:980px;padding:8px 15px;font-size:14px;line-height:1.29;letter-spacing:-0.224px;white-space:nowrap;
+  transition:background .15s,color .15s,opacity .15s}
+.pill.fill{background:var(--blue);color:var(--ice)}
+.pill.fill:hover{background:#0077ed}
+.pill.fill.done{background:#34c759;color:#fff}
+.pill.line{border:1px solid var(--link);color:var(--link)}
+.pill.line:hover{background:rgba(0,102,204,.06)}
+.pill.ghost{color:var(--link);padding-left:6px;padding-right:6px}
+.pill.ghost:hover{text-decoration:underline}
+.pill.danger{border:1px solid #d70015;color:#d70015}
+.pill.danger.armed{background:#d70015;color:#fff}
+.pill.gray{border:1px solid var(--hair);color:var(--graphite)}
+.pill.gray:hover{background:var(--white)}
+.pill:disabled{opacity:.4}
+.empty{max-width:980px;margin:0 auto;padding:56px 20px 96px;text-align:center;color:var(--ash);font-size:17px;font-weight:300}
+.empty b{display:block;font-weight:600;color:var(--carbon);font-size:21px;margin-bottom:8px}
+
+/* ---------- 푸터 ---------- */
+footer{border-top:1px solid var(--hair);padding:24px 20px 40px;text-align:center;font-size:12px;color:var(--ash);letter-spacing:-0.022em;line-height:1.8}
+
+/* ---------- 토스트 ---------- */
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--carbon);color:var(--frost);border-radius:980px;padding:10px 18px;font-size:14px;letter-spacing:-0.224px;
+  transition:opacity .2s,transform .2s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- 관리자 ---------- */
+.admin{display:none;background:var(--ice);border-bottom:1px solid var(--hair)}
+body.is-admin .admin{display:block}
+.admin-in{max-width:980px;margin:0 auto;padding:24px 20px}
+.admin h2{font-size:21px;font-weight:600;letter-spacing:-0.005em;display:flex;align-items:center;gap:10px}
+.admin h2 .badge{font-size:12px;font-weight:600;color:var(--ice);background:var(--carbon);border-radius:980px;padding:3px 10px}
+.admin .sub{font-size:14px;color:var(--ash);margin-top:4px;letter-spacing:-0.224px}
+.login{display:flex;gap:8px;margin-top:16px;max-width:680px;flex-wrap:wrap}
+.login .field{flex:1 1 220px}
+.field{width:100%;border:1px solid var(--hair);border-radius:8px;background:var(--white);padding:10px 12px;font-size:17px;
+  letter-spacing:-0.016em;color:var(--carbon);outline:none;transition:border-color .15s,box-shadow .15s}
+.field:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(0,113,227,.25)}
+textarea.field{min-height:200px;resize:vertical;font-size:15px;line-height:1.6}
+.admin-panel{display:none;margin-top:20px}
+.admin.logged .login{display:none}
+.admin.logged .admin-panel{display:block}
+.admin-weeks{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.admin-weeks .week-btn{padding:8px 16px;font-size:14px;min-width:0}
+.editor{background:var(--white);border:1px solid var(--hair);border-radius:8px;padding:20px;display:grid;gap:12px}
+.editor .row{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.editor .row .hint{font-size:12px;color:var(--mist);letter-spacing:-0.022em}
+.editor .row .btns{display:flex;gap:8px}
+.editor .title-line{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.editor .title-line span{font-size:14px;font-weight:600;color:var(--graphite)}
+.admin-list{margin-top:16px;display:grid;gap:8px}
+.arow{background:var(--white);border:1px solid var(--hair);border-radius:8px;padding:12px 16px;display:flex;gap:12px;align-items:center}
+.arow .t{flex:1;min-width:0;font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arow .t small{display:block;font-weight:400;color:var(--ash);font-size:12px;letter-spacing:-0.022em}
+.arow .ops{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.arow .ops .pill{padding:6px 12px;font-size:12px}
+.arow.editing{border-color:var(--blue)}
+.admin-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap}
+.admin-bottom .hint{font-size:12px;color:var(--mist);letter-spacing:-0.022em}
+/* 관리자 모드에서 아래 주차 버튼 = 공개 스위치 */
+body.admin-on .week-btn:disabled{cursor:pointer}
+body.admin-on .week-btn.pub-off{background:var(--pebble);border-color:var(--pebble);color:var(--mist)}
+body.admin-on .week-btn.pub-off:hover{border-color:var(--link);color:var(--link);background:rgba(0,113,227,.06)}
+body.admin-on .week-btn.preview{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(--signal)}
+.admin-tabs{display:flex;gap:6px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--hair)}
+.admin-tabs button{font-size:14px;font-weight:600;color:var(--ash);padding:7px 14px;border-radius:980px}
+.admin-tabs button.on{color:var(--carbon);background:var(--pebble)}
+.admin-tabs button .n{font-weight:400;color:var(--mist);margin-left:4px}
+
+/* ---------- 수강생 피드백 카드 ---------- */
+.fb{background:var(--white);border:1px solid var(--hair);border-radius:8px;padding:24px;display:grid;gap:12px}
+.fb .no{font-size:12px;font-weight:600;color:var(--signal);letter-spacing:-0.022em}
+.fb h3{font-size:21px;font-weight:600;line-height:1.24;letter-spacing:-0.005em}
+.fb p.sub{font-size:14px;color:var(--ash);letter-spacing:-0.224px;margin-top:-6px}
+.fb textarea.field{min-height:110px}
+.fb .row{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.fb .row .hint{font-size:12px;color:var(--mist);letter-spacing:-0.022em}
+.fb .send{width:44px;height:44px;border-radius:980px;background:var(--blue);color:var(--ice);display:inline-flex;align-items:center;justify-content:center;flex:none;transition:background .15s,transform .1s}
+.fb .send:hover:not(:disabled){background:#0077ed}
+.fb .send:active:not(:disabled){transform:scale(.96)}
+.fb .send:disabled{background:var(--pebble);color:var(--mist);cursor:default}
+.fb .done{text-align:center;padding:8px 0}
+.fb .done b{display:block;font-size:21px;font-weight:600;margin-bottom:6px}
+.fb .done span{font-size:14px;color:var(--ash)}
+.fb .mine{margin-top:8px;text-align:left;background:var(--frost);border:1px solid var(--pebble);border-radius:8px;padding:12px 16px;font-size:15px;line-height:1.55;color:var(--smoke);white-space:pre-wrap;word-break:break-word}
+.fb .mine small{display:block;font-size:12px;color:var(--ash);margin-bottom:4px}
+.fb.preview{border-style:dashed;border-color:var(--signal)}
+.fb.preview textarea.field{background:var(--frost);color:var(--mist)}
+
+/* ---------- 관리자 피드백 탭 ---------- */
+.fb-admin{display:grid;gap:16px}
+.fb-admin .ctl{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.fb-admin .ctl .btns{display:flex;gap:8px;flex-wrap:wrap}
+.fb-admin .ctl .state{font-size:14px;color:var(--graphite)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:var(--white);border:1px solid var(--hair);border-radius:8px;padding:16px}
+.stat .k{font-size:12px;color:var(--ash);letter-spacing:-0.022em}
+.stat .v{font-size:28px;font-weight:600;line-height:1.18;margin-top:4px}
+.frow{background:var(--white);border:1px solid var(--hair);border-radius:8px;padding:12px 16px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:start}
+.frow .meta{font-size:12px;color:var(--ash);letter-spacing:-0.022em;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.frow .txt{grid-column:1;font-size:15px;line-height:1.55;color:var(--smoke);white-space:pre-wrap;word-break:break-word}
+.frow .ops{grid-row:1/3;grid-column:2}
+.frow .ops .pill{padding:6px 12px;font-size:12px}
+.fb-empty{color:var(--ash);font-size:14px;background:var(--white);border:1px solid var(--hair);border-radius:8px;padding:16px}
+.fb-filter{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.fb-filter .dates{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border-radius:980px;padding:6px 12px;font-size:13px;border:1px solid var(--hair);color:var(--graphite);background:var(--white);transition:background .15s,color .15s,border-color .15s}
+.chip span{color:var(--mist);margin-left:2px}
+.chip.on{background:var(--carbon);border-color:var(--carbon);color:var(--frost)}
+.chip.on span{color:var(--pebble)}
+.chip:hover:not(.on){border-color:var(--link);color:var(--link)}
+.fb-date-head{display:flex;align-items:baseline;gap:8px;font-size:14px;font-weight:600;color:var(--carbon);padding:12px 4px 2px}
+.fb-date-head small{font-weight:400;color:var(--ash);font-size:12px}
+.frow .meta .wk{font-weight:600;color:var(--ice);background:var(--blue);border-radius:980px;padding:2px 9px}
+
+/* ---------- PDF 저장 (브라우저 인쇄 → "PDF로 저장") ---------- */
+.print-doc{display:none}
+@media print{
+  @page{margin:16mm 14mm}
+  html,body{background:#fff;color:#000}
+  body>*:not(.print-doc){display:none !important}
+  .print-doc{display:block;font-size:10.5pt;line-height:1.55;letter-spacing:-0.01em;color:#111}
+  .print-doc .head{border-bottom:1.5pt solid #111;padding-bottom:8pt;margin-bottom:6pt}
+  .print-doc .head .brand{font-size:9pt;color:#555;font-weight:600}
+  .print-doc .head h1{font-size:17pt;font-weight:700;line-height:1.25;margin-top:4pt}
+  .print-doc .head .desc{font-size:10pt;color:#444;margin-top:3pt}
+  .print-doc .head .meta{font-size:8.5pt;color:#666;margin-top:5pt}
+  .print-doc .p{border:0.75pt solid #bbb;border-radius:4pt;padding:9pt 11pt;margin-top:9pt;break-inside:avoid;page-break-inside:avoid}
+  .print-doc .p.tall{break-inside:auto;page-break-inside:auto}
+  .print-doc .p .no{font-size:8pt;font-weight:700;color:#0066cc;letter-spacing:.02em}
+  .print-doc .p h2{font-size:12.5pt;font-weight:700;line-height:1.3;margin-top:2pt}
+  .print-doc .p .body{margin-top:6pt;font-size:10pt;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+  .print-doc .p .body .gap{height:.5em}
+  .print-doc .foot{margin-top:12pt;padding-top:6pt;border-top:0.75pt solid #bbb;font-size:8pt;color:#666;text-align:center}
+}
+
+@media (max-width:600px){
+  .hero{padding:48px 16px 28px}
+  .card{padding:18px;grid-template-columns:1fr}
+  .card .actions{justify-content:flex-start}
+  .list{padding:16px 12px 72px}
+  .nav-meta .hide-sm{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- 전역 내비 -->
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand" id="navBrand">화성AI시민리더 양성과정 하반기</div>
+    <div class="nav-meta">
+      <span class="live" id="liveDot"><span class="hide-sm">연결 중</span></span>
+      <span>Made by <b id="navCredit"></b></span>
+    </div>
+  </div>
+</div>
+
+<!-- 관리자 영역 (?mode=admin 일 때만) -->
+<section class="admin" id="admin">
+  <div class="admin-in">
+    <h2>프롬프트 등록 <span class="badge">관리자</span></h2>
+    <div class="sub">위 주차 버튼은 프롬프트를 등록할 주차 선택용입니다. 수강생 공개는 아래 수강생 화면의 1주~5주 버튼을 눌러 켜고 끕니다.</div>
+
+    <form class="login" id="loginForm">
+      <input class="field" type="email" id="adminEmail" placeholder="관리자 이메일" autocomplete="username" required>
+      <input class="field" type="password" id="pw" placeholder="관리자 비밀번호" autocomplete="current-password" required>
+      <button class="pill fill" type="submit">입장</button>
+    </form>
+
+    <div class="admin-panel">
+      <div class="admin-tabs">
+        <button type="button" class="on" id="tabBtnPrompts">프롬프트</button>
+        <button type="button" id="tabBtnFeedback">수강생 피드백<span class="n" id="fbTotal"></span></button>
+      </div>
+
+      <div id="tabPrompts">
+      <div class="admin-weeks" id="adminWeeks"></div>
+
+      <div class="editor" id="editor">
+        <div class="title-line">
+          <span id="editorMode">새 프롬프트 · <span id="editorWeekLabel"></span></span>
+          <button class="pill ghost" type="button" id="cancelEdit" style="display:none">수정 취소</button>
+        </div>
+        <input class="field" id="fTitle" placeholder="프롬프트 제목 (예: 실습① 강사 정체성 인터뷰)" maxlength="120">
+        <textarea class="field" id="fBody" placeholder="프롬프트 내용을 붙여 넣으세요.&#10;Enter = 저장, Shift+Enter = 줄바꿈"></textarea>
+        <div class="row">
+          <span class="hint">Enter 저장 · Shift+Enter 줄바꿈 · [ ] 안은 수강생이 바꿔 쓰는 부분으로 안내하면 좋습니다</span>
+          <div class="btns">
+            <button class="pill line" type="button" id="tidyBtn">빈 줄 없애기</button>
+            <button class="pill fill" type="button" id="saveBtn">저장</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-list" id="adminList"></div>
+      </div>
+
+      <div id="tabFeedback" hidden>
+        <div class="admin-weeks" id="fbWeeks"></div>
+        <div class="fb-admin" id="fbAdmin"></div>
+      </div>
+
+      <div class="admin-bottom">
+        <span class="hint" id="adminHint">순서는 ▲▼로 바꾸고, 삭제는 두 번 눌러 확정합니다. 아래 수강생 화면의 주차 버튼을 누르면 그 주차가 공개·비공개로 바뀝니다.</span>
+        <button class="pill gray" type="button" id="logoutBtn">관리자 나가기</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 히어로 -->
+<header class="hero">
+  <div class="eyebrow" id="eyebrow">수업 프롬프트 모음</div>
+  <h1 id="title"></h1>
+  <div class="tag" id="tagline"></div>
+  <div class="credit">Made by <b id="credit"></b></div>
+</header>
+
+<!-- 주차 버튼 -->
+<nav class="weeks" id="weeks" aria-label="주차 선택"></nav>
+<div class="week-hint" id="weekHint"></div>
+
+<!-- 선택된 주차 -->
+<section class="week-head" id="weekHead" hidden>
+  <h2 id="whTitle"></h2>
+  <p id="whDesc"></p>
+  <div class="tools">
+    <span class="count" id="whCount"></span>
+    <button class="pill line" type="button" id="savePdf" title="이 주차의 프롬프트 전체를 PDF 파일로 저장합니다">PDF로 저장</button>
+  </div>
+</section>
+<section class="list" id="fbWrap" hidden style="padding-bottom:0"></section>
+
+<main class="list" id="list"></main>
+<div class="empty" id="empty" hidden></div>
+
+<footer>
+  <div id="footCredit"></div>
+  <div>프롬프트는 수업 중 안내에 따라 복사해 사용하세요. 무단 배포를 삼가 주세요.</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<!-- PDF 저장용 인쇄 문서 (화면에는 보이지 않고 인쇄할 때만 나타남) -->
+<section class="print-doc" id="printDoc" aria-hidden="true"></section>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+/* ============================================================
+   설정 — 여기만 고치면 다른 과정에도 재사용할 수 있습니다
+============================================================ */
+const APP = {
+  title: "화성시 AI시민리더 실습",
+  titleThin: "",                       // 제목 뒤에 가볍게 붙는 부분
+  tagline: "수업에서 바로 쓰는 프롬프트를 한곳에.",
+  credit: "정진수",                    // 제작자 표시
+  adminUid: "RVhNiLJHUfTY9XYgm67ULt7bFuo2", // Firebase Authentication 관리자 UID
+  dbPath: "promptHub/hwaseong2026H2",  // 다른 기수·과정에 쓰려면 이 이름만 바꾸세요
+};
+
+// 주차 정보 (버튼 라벨 · 제목 · 한 줄 설명). 프롬프트가 등록된 주차만 버튼이 켜집니다.
+const WEEKS = [
+  { key: "w1", label: "1주", title: "OT · 강사 정체성과 퍼스널 브랜딩", desc: "강사 소개 원페이지와 강의 제안서 요약본" },
+  { key: "w2", label: "2주", title: "AI 기반 교수 설계와 PBL 활동 구조화", desc: "4시간 수업 설계서와 평가 기준표 초안" },
+  { key: "w3", label: "3주", title: "노인 대상 수업 설계", desc: "교수법 · 범죄예방 · 실생활 AI 앱" },
+  { key: "w4", label: "4-1", title: "Google Vids에서 간단한 숏폼 만들기", desc: "" },
+  { key: "w4c", label: "4-2", title: "스토리보드 스튜디오", desc: "" },
+  { key: "w4b", label: "4-3", title: "Google Flow에서 캠페인영상 만들기", desc: "" },
+  { key: "w5", label: "5주", title: "소상공인 대상 수업 설계와 총정리", desc: "홍보물 제작과 앞 5주 정리" },
+];
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAK2nO-ABCCi2yq10MQRrxpOX-RfP3ywkg",
+  authDomain: "prompt-df6fd.firebaseapp.com",
+  databaseURL: "https://prompt-df6fd-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "prompt-df6fd",
+  storageBucket: "prompt-df6fd.firebasestorage.app",
+  messagingSenderId: "257198692426",
+  appId: "1:257198692426:web:9780e1f93e044a2ff7aeb3"
+};
+
+/* ============================================================
+   초기화
+============================================================ */
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+const TS = () => firebase.database.ServerValue.TIMESTAMP;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const isAdminMode = new URLSearchParams(location.search).get("mode") === "admin";
+
+document.title = `${APP.title} ${APP.titleThin} · 프롬프트`;
+$("#navBrand").textContent = `${APP.title} ${APP.titleThin}`;
+$("#title").innerHTML = `${esc(APP.title)} <span class="thin">${esc(APP.titleThin)}</span>`;
+$("#tagline").textContent = APP.tagline;
+$("#credit").textContent = APP.credit;
+$("#navCredit").textContent = APP.credit;
+$("#footCredit").textContent = `${APP.title} ${APP.titleThin} · Made by ${APP.credit}`;
+
+/* ============================================================
+   상태
+============================================================ */
+let data = {};            // { w1: { id: {title, body, order} }, ... }
+let weekMeta = {};        // { w1: { feedbackOpen: true, published: false } } — published: 강사가 공개 버튼을 누른 주차만 true
+let fbData = {};          // 관리자만 구독: { w1: { id: {rating, text, name, createdAt} } }
+let fbWeek = "all";       // "all" 또는 w1..w5
+let fbDate = null;        // null = 모든 날짜, 아니면 "YYYY-MM-DD"
+let fbSortAsc = false;    // false = 최신순
+let fbSubscribed = false;
+let armedFbDelete = null;
+let currentWeek = null;   // 수강생 화면에서 선택된 주차 key
+let adminWeek = WEEKS[0].key;
+let editingId = null;
+let armedDelete = null;   // 두 번 클릭 삭제용
+let toastTimer = null;
+
+const weekPrompts = key => {
+  const obj = data[key] || {};
+  return Object.entries(obj).map(([id, v]) => ({ id, ...v }))
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || (a.createdAt ?? 0) - (b.createdAt ?? 0));
+};
+const hasPrompts = key => weekPrompts(key).length > 0;
+const wname = w => /주$/.test(w.label) ? `${w.label}차` : w.label;   // "1주차"처럼 주 단위만 "차"를 붙이고, 4-1 같은 하위 주차는 라벨 그대로
+const isPublished = key => !!(weekMeta[key] && weekMeta[key].published);   // 수강생 화면 활성 기준
+const adminOn = () => isAdminMode && $("#admin").classList.contains("logged");
+
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 1600);
+}
+
+/* ============================================================
+   복사 (드래그 선택이 막혀 있어도 동작)
+============================================================ */
+async function copyText(text) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch (_) { /* 아래 폴백으로 */ }
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;left:-9999px;top:0;opacity:0;user-select:text;-webkit-user-select:text";
+    document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0, text.length);
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    return ok;
+  } catch (_) { return false; }
+}
+
+/* ============================================================
+   수강생 화면 렌더
+============================================================ */
+// 빈 줄은 절반 높이의 간격으로만 표시 (복사되는 원문은 그대로)
+const bodyHtml = body => String(body ?? "").split("\n")
+  .map(l => l.trim() === "" ? `<div class="gap"></div>` : `<div>${esc(l)}</div>`).join("");
+function renderWeeks() {
+  const wrap = $("#weeks");
+  wrap.innerHTML = "";
+  let anyActive = false;
+  const admin = adminOn();
+  document.body.classList.toggle("admin-on", admin);
+  WEEKS.forEach(w => {
+    const active = isPublished(w.key);
+    if (active) anyActive = true;
+    if (!admin && !active) return;   // 수강생 화면: 비공개 주차는 버튼 자체를 보여주지 않는다
+    const b = document.createElement("button");
+    b.type = "button";
+    b.innerHTML = `<span class="n">${esc(w.label)}</span>`;
+    if (admin) {
+      // 관리자: 파란색 = 공개 중, 회색 = 비공개. 누르면 전환. 테두리 = 아래에 미리보기 중인 주차
+      b.className = "week-btn " + (active ? "on" : "pub-off") + (w.key === currentWeek ? " preview" : "");
+      b.title = active ? `${wname(w)} 공개 중 · 누르면 비공개` : `${wname(w)} 비공개 · 누르면 공개`;
+      b.setAttribute("aria-pressed", active ? "true" : "false");
+      b.addEventListener("click", () => togglePublish(w.key));
+    } else {
+      b.className = "week-btn" + (w.key === currentWeek ? " on" : "");
+      b.disabled = !active;
+      b.title = active ? w.title : `${wname(w)}는 아직 공개되지 않았습니다`;
+      b.setAttribute("aria-pressed", w.key === currentWeek ? "true" : "false");
+      b.addEventListener("click", () => { currentWeek = w.key; renderWeeks(); renderList(); });
+    }
+    wrap.appendChild(b);
+  });
+  $("#weekHint").textContent = admin
+    ? "관리자: 버튼을 누르면 그 주차가 공개(파란색) 또는 비공개(회색)로 바뀝니다. 여러 주차를 함께 공개할 수 있습니다."
+    : "";
+}
+
+function renderList() {
+  const head = $("#weekHead"), list = $("#list"), empty = $("#empty");
+  list.innerHTML = "";
+  if (!currentWeek || !isPublished(currentWeek)) {
+    head.hidden = true;
+    empty.hidden = false;
+    const w = currentWeek && WEEKS.find(x => x.key === currentWeek);
+    empty.innerHTML = (adminOn() && w)
+      ? `<b>${esc(wname(w))}는 지금 비공개입니다</b>수강생에게는 회색 버튼으로 보입니다. 다시 누르면 공개됩니다.`
+      : `<b>아직 공개된 주차가 없습니다</b>수업 당일에 이곳에서 프롬프트를 확인할 수 있습니다.`;
+    $("#fbWrap").hidden = true;
+    return;
+  }
+  if (!hasPrompts(currentWeek)) {
+    head.hidden = true;
+    empty.hidden = false;
+    empty.innerHTML = `<b>아직 등록된 프롬프트가 없습니다</b>곧 이곳에 올라옵니다.`;
+    renderFeedbackCard();
+    return;
+  }
+  const w = WEEKS.find(x => x.key === currentWeek);
+  const items = weekPrompts(currentWeek);
+  head.hidden = false; empty.hidden = true;
+  $("#whTitle").textContent = `${wname(w)} · ${w.title}`;
+  $("#whDesc").textContent = w.desc || ""; $("#whDesc").hidden = !w.desc;
+  $("#whCount").textContent = `프롬프트 ${items.length}개`;
+
+  items.forEach((p, i) => {
+    const long = (p.body || "").length > 700 || (p.body || "").split("\n").length > 12;
+    const card = document.createElement("article");
+    card.className = "card" + (long ? " collapsed" : "");
+    card.innerHTML = `
+      <div class="no">PROMPT ${String(i + 1).padStart(2, "0")}</div>
+      <h3>${esc(p.title)}</h3>
+      <div class="actions">
+        ${long ? `<button class="pill line more" type="button">전체 보기</button>` : ""}
+        <button class="pill fill copy" type="button">복사</button>
+      </div>
+      <pre>${bodyHtml(p.body)}</pre>`;
+    const copyBtn = card.querySelector(".copy");
+    copyBtn.addEventListener("click", async () => {
+      const ok = await copyText(p.body || "");
+      if (ok) {
+        copyBtn.textContent = "복사됨"; copyBtn.classList.add("done");
+        toast(`"${p.title}" 프롬프트를 복사했습니다`);
+        setTimeout(() => { copyBtn.textContent = "복사"; copyBtn.classList.remove("done"); }, 1800);
+      } else {
+        toast("복사에 실패했습니다. 다시 눌러 주세요");
+      }
+    });
+    const more = card.querySelector(".more");
+    if (more) more.addEventListener("click", () => {
+      const collapsed = card.classList.toggle("collapsed");
+      more.textContent = collapsed ? "전체 보기" : "접기";
+    });
+    list.appendChild(card);
+  });
+  renderFeedbackCard();
+}
+
+/* ============================================================
+   PDF로 저장 — 현재 주차의 프롬프트를 인쇄용 문서로 만들어 브라우저 인쇄 창(→ "PDF로 저장")을 연다
+============================================================ */
+const safeName = s => String(s ?? "").replace(/[/:*?"<>|]/g, " ").split(String.fromCharCode(92)).join(" ").replace(/\s+/g, " ").trim();
+function buildPrintDoc() {
+  const w = WEEKS.find(x => x.key === currentWeek);
+  if (!w) return null;
+  const items = weekPrompts(currentWeek);
+  const d = new Date();
+  const dateStr = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+  $("#printDoc").innerHTML = `
+    <div class="head">
+      <div class="brand">${esc(APP.title)} ${esc(APP.titleThin)} · 수업 프롬프트</div>
+      <h1>${esc(wname(w))} · ${esc(w.title)}</h1>
+      ${w.desc ? `<div class="desc">${esc(w.desc)}</div>` : ""}
+      <div class="meta">프롬프트 ${items.length}개 · 저장일 ${dateStr} · Made by ${esc(APP.credit)}</div>
+    </div>
+    ${items.map((p, i) => {
+      const body = p.body || "";
+      // 한 쪽을 넘는 긴 프롬프트는 중간에서 쪽이 나뉘도록 허용 (짧은 것은 한 쪽 안에 통째로)
+      const tall = body.length > 1400 || body.split("\n").length > 28;
+      return `<article class="p${tall ? " tall" : ""}">
+        <div class="no">PROMPT ${String(i + 1).padStart(2, "0")}</div>
+        <h2>${esc(p.title)}</h2>
+        <div class="body">${bodyHtml(body)}</div>
+      </article>`;
+    }).join("")}
+    <div class="foot">${esc(APP.title)} ${esc(APP.titleThin)} · Made by ${esc(APP.credit)} · 수업 중 안내에 따라 사용하고 무단 배포를 삼가 주세요.</div>`;
+  return { w, items };
+}
+
+function saveWeekPdf() {
+  if (!currentWeek || !isPublished(currentWeek) || !hasPrompts(currentWeek)) { toast("저장할 프롬프트가 없습니다"); return; }
+  const built = buildPrintDoc();
+  if (!built) return;
+  // 인쇄 창의 "PDF로 저장" 기본 파일 이름 = 문서 제목
+  const prevTitle = document.title;
+  document.title = safeName(`${APP.title} ${APP.titleThin} ${wname(built.w)} ${built.w.title} 프롬프트`);
+  const restore = () => { document.title = prevTitle; window.removeEventListener("afterprint", restore); };
+  window.addEventListener("afterprint", restore);
+  toast("인쇄 창에서 대상을 'PDF로 저장'으로 선택하세요");
+  setTimeout(() => {
+    try { window.print(); } catch (_) { toast("이 브라우저에서는 인쇄 창을 열 수 없습니다"); }
+    setTimeout(restore, 60000);   // afterprint가 오지 않는 브라우저용 안전장치
+  }, 350);
+}
+$("#savePdf").addEventListener("click", saveWeekPdf);
+
+/* ============================================================
+   수강생 피드백 카드
+============================================================ */
+const fbOpen = key => !weekMeta[key] || weekMeta[key].feedbackOpen !== false;   // 기본은 받기 켜짐
+const FB_DONE_KEY = key => `promptHub_fb_${APP.dbPath}_${key}`;
+const SEND_ICON = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>`;
+const fmtTime = ts => ts ? new Date(ts).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
+
+function renderFeedbackCard() {
+  const wrap = $("#fbWrap");
+  wrap.innerHTML = "";
+  if (!currentWeek || !isPublished(currentWeek) || !fbOpen(currentWeek)) { wrap.hidden = true; return; }
+  wrap.hidden = false;
+  const w = WEEKS.find(x => x.key === currentWeek);
+  let mine = null;
+  try { mine = JSON.parse(localStorage.getItem(FB_DONE_KEY(currentWeek)) || "null"); } catch (_) {}
+
+  const card = document.createElement("section");
+  card.className = "fb";
+  if (adminOn()) {
+    // 강사 화면: 제출되지 않는 미리보기 + 도착한 피드백 수
+    const n = weekFb(currentWeek).length;
+    card.classList.add("preview");
+    card.innerHTML = `
+      <div class="no">FEEDBACK · 미리보기</div>
+      <h3>오늘 수업, 어떠셨나요?</h3>
+      <p class="sub">수강생에게는 이 자리에 이렇게 보입니다. 익명으로 글 한 칸을 받고 제출 후에는 감사 문구가 뜹니다.</p>
+      <textarea class="field" placeholder="오늘 강의에 대한 소중한 의견을 남겨 주세요." disabled></textarea>
+      <div class="row">
+        <span class="hint">강사 화면에서는 제출되지 않습니다 · ${esc(wname(w))}에 도착한 피드백 ${n}개</span>
+        <span style="display:flex;gap:8px;align-items:center"><button class="pill line" type="button" id="fbGoAdmin">피드백 ${n}개 보기</button><button class="send" type="button" disabled aria-hidden="true">${SEND_ICON}</button></span>
+      </div>`;
+    card.querySelector("#fbGoAdmin").addEventListener("click", () => {
+      fbWeek = currentWeek; fbDate = null; showAdminTab("feedback"); renderFbWeeks(); renderFbAdmin();
+      $("#admin").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    wrap.appendChild(card);
+    return;
+  }
+  if (mine) {
+    card.innerHTML = `
+      <div class="no">FEEDBACK</div>
+      <div class="done"><b>소중한 의견 감사합니다</b><span>${esc(wname(w))} 수업 피드백이 강사에게 잘 전달되었습니다. 다음 수업에 꼭 반영하겠습니다.</span></div>
+      <div class="mine"><small>내가 보낸 피드백</small>${esc(mine.text)}</div>`;
+    wrap.appendChild(card);
+    return;
+  }
+  card.innerHTML = `
+    <div class="no">FEEDBACK</div>
+    <h3>오늘 수업, 어떠셨나요?</h3>
+    <p class="sub">여러분이 남겨 주시는 한 줄이 다음 수업을 더 좋게 만듭니다. 좋았던 점, 아쉬웠던 점, 더 알고 싶은 것을 편하게 적어 주세요. 익명으로 전달되며 강사만 볼 수 있습니다.</p>
+    <textarea class="field" id="fbText" placeholder="오늘 강의에 대한 소중한 의견을 남겨 주세요." maxlength="1000"></textarea>
+    <div class="row">
+      <span class="hint">Enter는 줄바꿈입니다. 다 쓰셨으면 오른쪽 화살표 버튼을 눌러 보내 주세요.</span>
+      <button class="send" type="button" id="fbSubmit" aria-label="피드백 보내기" title="피드백 보내기">${SEND_ICON}</button>
+    </div>`;
+  // Enter는 줄바꿈 그대로 두고, 화살표 버튼을 눌러야만 제출
+  card.querySelector("#fbSubmit").addEventListener("click", submitFeedback);
+  wrap.appendChild(card);
+}
+
+function submitFeedback() {
+  const wk = currentWeek;
+  const text = tidyBody($("#fbText").value);
+  if (!text) { toast("피드백 내용을 적어 주세요"); $("#fbText").focus(); return; }
+  const btn = $("#fbSubmit"); btn.disabled = true;
+  const rec = { text, createdAt: TS() };
+  db.ref(`${APP.dbPath}/feedback/${wk}`).push(rec).then(() => {
+    try { localStorage.setItem(FB_DONE_KEY(wk), JSON.stringify({ text, at: Date.now() })); } catch (_) {}
+    toast("피드백을 보냈습니다. 감사합니다");
+    renderFeedbackCard();
+  }).catch(e => { toast("전송 실패: " + e.message); btn.disabled = false; });
+}
+
+// 처음 열었을 때 / 현재 주차가 비활성화되었을 때 → 프롬프트 있는 가장 최근 주차로
+function ensureCurrentWeek() {
+  if (currentWeek && isPublished(currentWeek)) return;
+  const active = WEEKS.filter(w => isPublished(w.key));
+  currentWeek = active.length ? active[active.length - 1].key : null;
+}
+
+/* ============================================================
+   관리자
+============================================================ */
+function setAdminLogged(on) {
+  $("#admin").classList.toggle("logged", on);
+  if (on) { renderAdminWeeks(); renderAdminList(); subscribeFeedback(); renderFbWeeks(); renderFbAdmin(); $("#fTitle").focus(); }
+  else { ensureCurrentWeek(); }
+  renderWeeks(); renderList();
+}
+
+/* ============================================================
+   관리자 · 수강생 피드백
+============================================================ */
+const weekFb = key => Object.entries(fbData[key] || {}).map(([id, v]) => ({ id, ...v }))
+  .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
+const fbTotal = () => WEEKS.reduce((n, w) => n + weekFb(w.key).length, 0);
+
+function subscribeFeedback() {
+  if (fbSubscribed) return;
+  fbSubscribed = true;
+  db.ref(`${APP.dbPath}/feedback`).on("value", snap => {
+    fbData = snap.val() || {};
+    renderFbWeeks(); renderFbAdmin(); renderFeedbackCard();
+  }, err => toast("피드백 불러오기 실패: " + err.message));
+}
+
+function showAdminTab(which) {
+  const fb = which === "feedback";
+  $("#tabPrompts").hidden = fb; $("#tabFeedback").hidden = !fb;
+  $("#tabBtnPrompts").classList.toggle("on", !fb); $("#tabBtnFeedback").classList.toggle("on", fb);
+  $("#adminHint").textContent = fb
+    ? "피드백 받기를 끄면 수강생 화면에서 그 주차의 피드백 칸이 사라집니다. 삭제는 두 번 눌러 확정합니다."
+    : "순서는 ▲▼로 바꾸고, 삭제는 두 번 눌러 확정합니다. 아래 수강생 화면의 주차 버튼을 누르면 그 주차가 공개·비공개로 바뀝니다.";
+}
+
+function renderFbWeeks() {
+  const wrap = $("#fbWeeks");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  const mk = (key, label, on) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "week-btn" + (on ? " on" : "");
+    b.textContent = label;
+    b.addEventListener("click", () => { fbWeek = key; fbDate = null; armedFbDelete = null; renderFbWeeks(); renderFbAdmin(); });
+    wrap.appendChild(b);
+  };
+  mk("all", `전체 · ${fbTotal()}개`, fbWeek === "all");
+  WEEKS.forEach(w => mk(w.key, `${w.label} · ${weekFb(w.key).length}개${fbOpen(w.key) ? "" : " · 꺼짐"}`, w.key === fbWeek));
+  const total = fbTotal();
+  $("#fbTotal").textContent = total ? `${total}` : "";
+}
+
+// 날짜 키(YYYY-MM-DD, 현지 시각)와 표시용 문자열
+const dateKey = ts => { const d = new Date(ts || 0); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const DOW = ["일", "월", "화", "수", "목", "금", "토"];
+const fmtDate = key => { const [y, m, d] = key.split("-").map(Number); const dt = new Date(y, m - 1, d); return `${m}월 ${d}일 (${DOW[dt.getDay()]})`; };
+const fmtClock = ts => ts ? new Date(ts).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" }) : "";
+
+function renderFbAdmin() {
+  const wrap = $("#fbAdmin");
+  if (!wrap) return;
+  const all = fbWeek === "all";
+  const w = all ? null : WEEKS.find(x => x.key === fbWeek);
+  // 대상 항목: 전체면 모든 주차를 합치고 각 항목에 주차 정보를 붙인다
+  let items = all
+    ? WEEKS.flatMap(x => weekFb(x.key).map(f => ({ ...f, wk: x.key, wlabel: x.label })))
+    : weekFb(fbWeek).map(f => ({ ...f, wk: fbWeek, wlabel: w.label }));
+  items.sort((a, b) => fbSortAsc ? (a.createdAt ?? 0) - (b.createdAt ?? 0) : (b.createdAt ?? 0) - (a.createdAt ?? 0));
+  const total = items.length;
+  const latest = items.reduce((m, f) => Math.max(m, f.createdAt || 0), 0);
+
+  // 날짜 목록 (최신 날짜 먼저)
+  const dates = [...new Set(items.map(f => dateKey(f.createdAt)))].sort().reverse();
+  if (fbDate && !dates.includes(fbDate)) fbDate = null;
+  const shown = fbDate ? items.filter(f => dateKey(f.createdAt) === fbDate) : items;
+  const open = all ? null : fbOpen(fbWeek);
+
+  wrap.innerHTML = `
+    <div class="ctl">
+      <span class="state"><b>${all ? "전체 주차" : esc(wname(w)) + " · " + esc(w.title)}</b>${all ? "" : " — 피드백 받기 " + (open ? "켜짐" : "꺼짐")}</span>
+      <div class="btns">
+        ${all ? "" : `<button class="pill ${open ? "fill" : "gray"}" type="button" id="fbToggle">${open ? "받기 끄기" : "받기 켜기"}</button>`}
+        ${all ? "" : `<button class="pill line" type="button" id="fbCsvWeek" ${total ? "" : "disabled"}>이 주차 CSV</button>`}
+        <button class="pill line" type="button" id="fbCsvAll" ${fbTotal() ? "" : "disabled"}>전체 CSV</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="k">응답 수${fbDate ? " · " + esc(fmtDate(fbDate)) : ""}</div><div class="v">${shown.length}<small> 명</small></div></div>
+      <div class="stat"><div class="k">최근 응답</div><div class="v" style="font-size:17px">${latest ? esc(fmtTime(latest)) : "–"}</div></div>
+    </div>
+    ${total ? `
+    <div class="fb-filter">
+      <div class="dates" id="fbDates">
+        <button type="button" class="chip ${fbDate ? "" : "on"}" data-d="">모든 날짜</button>
+        ${dates.map(d => `<button type="button" class="chip ${fbDate === d ? "on" : ""}" data-d="${d}">${esc(fmtDate(d))} <span>${items.filter(f => dateKey(f.createdAt) === d).length}</span></button>`).join("")}
+      </div>
+      <button type="button" class="pill gray" id="fbSort">${fbSortAsc ? "오래된순 ↑" : "최신순 ↓"}</button>
+    </div>` : ""}
+    <div id="fbList" style="display:grid;gap:8px"></div>`;
+
+  if (!all) {
+    $("#fbToggle").addEventListener("click", () => {
+      db.ref(`${APP.dbPath}/weeks/${fbWeek}/feedbackOpen`).set(!open)
+        .then(() => toast(open ? `${wname(w)} 피드백 받기를 껐습니다` : `${wname(w)} 피드백 받기를 켰습니다`))
+        .catch(e => toast("변경 실패: " + e.message));
+    });
+    $("#fbCsvWeek").addEventListener("click", () => downloadCsv([fbWeek]));
+  }
+  $("#fbCsvAll").addEventListener("click", () => downloadCsv(WEEKS.map(x => x.key)));
+  wrap.querySelectorAll("#fbDates .chip").forEach(c => c.addEventListener("click", () => { fbDate = c.dataset.d || null; armedFbDelete = null; renderFbAdmin(); }));
+  const sortBtn = $("#fbSort");
+  if (sortBtn) sortBtn.addEventListener("click", () => { fbSortAsc = !fbSortAsc; renderFbAdmin(); });
+
+  const list = $("#fbList");
+  if (!total) { list.innerHTML = `<div class="fb-empty">${all ? "아직 도착한 피드백이 없습니다." : "아직 이 주차에 도착한 피드백이 없습니다."}</div>`; return; }
+
+  // 모든 날짜 보기에서는 날짜별로 묶어 제목을 넣는다
+  let lastDate = null;
+  shown.forEach(f => {
+    const dk = dateKey(f.createdAt);
+    if (!fbDate && dk !== lastDate) {
+      lastDate = dk;
+      const h = document.createElement("div");
+      h.className = "fb-date-head";
+      h.innerHTML = `<span>${esc(fmtDate(dk))}</span><small>${items.filter(x => dateKey(x.createdAt) === dk).length}개</small>`;
+      list.appendChild(h);
+    }
+    const row = document.createElement("div");
+    row.className = "frow";
+    row.innerHTML = `
+      <div class="meta">${all ? `<span class="wk">${esc(f.wlabel)}</span>` : ""}<span>익명</span><span>${esc(fbDate || !all ? fmtClock(f.createdAt) : fmtTime(f.createdAt))}</span></div>
+      <div class="txt">${esc(f.text)}</div>
+      <div class="ops"><button class="pill danger ${armedFbDelete === f.id ? "armed" : ""}" type="button">${armedFbDelete === f.id ? "정말 삭제" : "삭제"}</button></div>`;
+    row.querySelector(".pill.danger").addEventListener("click", () => {
+      if (armedFbDelete !== f.id) {
+        armedFbDelete = f.id; renderFbAdmin();
+        setTimeout(() => { if (armedFbDelete === f.id) { armedFbDelete = null; renderFbAdmin(); } }, 3000);
+        return;
+      }
+      armedFbDelete = null;
+      db.ref(`${APP.dbPath}/feedback/${f.wk}/${f.id}`).remove().then(() => toast("삭제했습니다")).catch(e => toast("삭제 실패: " + e.message));
+    });
+    list.appendChild(row);
+  });
+}
+
+function csvCell(v) { const t = String(v ?? "").replace(/"/g, '""'); return /[",\n\r]/.test(t) ? `"${t}"` : t; }
+function downloadCsv(keys) {
+  const rows = [["주차", "시각", "피드백"]];
+  keys.forEach(k => {
+    const w = WEEKS.find(x => x.key === k);
+    weekFb(k).slice().reverse().forEach(f => rows.push([`${wname(w)}`, f.createdAt ? new Date(f.createdAt).toLocaleString("ko-KR") : "", f.text || ""]));
+  });
+  if (rows.length === 1) { toast("내려받을 피드백이 없습니다"); return; }
+  const csv = "\uFEFF" + rows.map(r => r.map(csvCell).join(",")).join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+  a.download = `피드백_${keys.length === 1 ? WEEKS.find(x => x.key === keys[0]).label : "전체"}_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast(`${rows.length - 1}건을 CSV로 내려받았습니다`);
+}
+
+function renderAdminWeeks() {
+  const wrap = $("#adminWeeks");
+  wrap.innerHTML = "";
+  WEEKS.forEach(w => {
+    const n = weekPrompts(w.key).length;
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "week-btn" + (w.key === adminWeek ? " on" : "");
+    b.textContent = `${w.label} · ${n}개 · ${isPublished(w.key) ? "공개" : "비공개"}`;
+    b.addEventListener("click", () => {
+      adminWeek = w.key;
+      // 기존 항목을 수정하던 중이면 취소, 새 글을 쓰던 중이면 입력한 내용은 그대로 둔다
+      if (editingId) cancelEdit(); else { renderAdminWeeks(); renderAdminList(); }
+    });
+    wrap.appendChild(b);
+  });
+  const w = WEEKS.find(x => x.key === adminWeek);
+  $("#editorWeekLabel").textContent = `${wname(w)} ${w.title}`;
+}
+
+// 아래 수강생 화면의 주차 버튼을 눌러 공개/비공개 전환 (관리자 모드에서만)
+function togglePublish(key) {
+  const w = WEEKS.find(x => x.key === key), next = !isPublished(key);
+  currentWeek = key;
+  db.ref(`${APP.dbPath}/weeks/${key}/published`).set(next)
+    .then(() => toast(next ? `${wname(w)}를 수강생에게 공개했습니다` : `${wname(w)}를 비공개로 바꿨습니다`))
+    .catch(e => toast("변경 실패: " + e.message));
+}
+
+function renderAdminList() {
+  const wrap = $("#adminList");
+  const items = weekPrompts(adminWeek);
+  wrap.innerHTML = "";
+  if (!items.length) {
+    wrap.innerHTML = `<div class="arow" style="color:var(--ash);font-size:14px">이 주차에 등록된 프롬프트가 없습니다. 위에서 첫 프롬프트를 저장하면 수강생 화면의 버튼이 켜집니다.</div>`;
+    return;
+  }
+  items.forEach((p, i) => {
+    const row = document.createElement("div");
+    row.className = "arow" + (p.id === editingId ? " editing" : "");
+    const lines = (p.body || "").split("\n").length;
+    row.innerHTML = `
+      <div class="t">${i + 1}. ${esc(p.title)}<small>${(p.body || "").length}자 · ${lines}줄</small></div>
+      <div class="ops">
+        <button class="pill gray up" type="button" ${i === 0 ? "disabled" : ""}>▲</button>
+        <button class="pill gray down" type="button" ${i === items.length - 1 ? "disabled" : ""}>▼</button>
+        <button class="pill line edit" type="button">수정</button>
+        <button class="pill danger del ${armedDelete === p.id ? "armed" : ""}" type="button">${armedDelete === p.id ? "정말 삭제" : "삭제"}</button>
+      </div>`;
+    row.querySelector(".up").addEventListener("click", () => swapOrder(items, i, i - 1));
+    row.querySelector(".down").addEventListener("click", () => swapOrder(items, i, i + 1));
+    row.querySelector(".edit").addEventListener("click", () => startEdit(p));
+    row.querySelector(".del").addEventListener("click", () => {
+      if (armedDelete !== p.id) {
+        armedDelete = p.id; renderAdminList();
+        setTimeout(() => { if (armedDelete === p.id) { armedDelete = null; renderAdminList(); } }, 3000);
+        return;
+      }
+      armedDelete = null;
+      db.ref(`${APP.dbPath}/weeks/${adminWeek}/prompts/${p.id}`).remove()
+        .then(() => toast("삭제했습니다"))
+        .catch(e => toast("삭제 실패: " + e.message));
+      if (editingId === p.id) cancelEdit();
+    });
+    wrap.appendChild(row);
+  });
+}
+
+function swapOrder(items, i, j) {
+  if (j < 0 || j >= items.length) return;
+  // order 값을 인덱스 기준으로 다시 매겨서 두 항목만 교환
+  const updates = {};
+  items.forEach((p, idx) => { updates[`${p.id}/order`] = idx; });
+  updates[`${items[i].id}/order`] = j;
+  updates[`${items[j].id}/order`] = i;
+  db.ref(`${APP.dbPath}/weeks/${adminWeek}/prompts`).update(updates).catch(e => toast("순서 변경 실패: " + e.message));
+}
+
+function startEdit(p) {
+  editingId = p.id;
+  $("#fTitle").value = p.title || "";
+  $("#fBody").value = p.body || "";
+  $("#editorMode").innerHTML = `수정 중 · <span id="editorWeekLabel"></span>`;
+  renderAdminWeeks();
+  $("#cancelEdit").style.display = "";
+  $("#saveBtn").textContent = "수정 저장";
+  renderAdminList();
+  $("#fTitle").focus();
+  $("#editor").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function cancelEdit() {
+  editingId = null;
+  $("#fTitle").value = ""; $("#fBody").value = "";
+  $("#editorMode").innerHTML = `새 프롬프트 · <span id="editorWeekLabel"></span>`;
+  renderAdminWeeks();
+  $("#cancelEdit").style.display = "none";
+  $("#saveBtn").textContent = "저장";
+  renderAdminList();
+}
+
+// 줄 끝 공백 제거, 연속 빈 줄은 하나로, 앞뒤 빈 줄 제거
+function tidyBody(t) {
+  return String(t ?? "").replace(/\r\n?/g, "\n").split("\n").map(l => l.replace(/\s+$/, "")).join("\n")
+    .replace(/\n{3,}/g, "\n\n").replace(/^\n+|\n+$/g, "");
+}
+// 빈 줄을 모두 없애서 줄이 촘촘하게 붙도록
+function removeBlankLines(t) {
+  return tidyBody(t).split("\n").filter(l => l.trim() !== "").join("\n");
+}
+
+function savePrompt() {
+  const title = $("#fTitle").value.trim();
+  const body = tidyBody($("#fBody").value);
+  if (!title) { toast("제목을 입력하세요"); $("#fTitle").focus(); return; }
+  if (!body.trim()) { toast("프롬프트 내용을 입력하세요"); $("#fBody").focus(); return; }
+  const ref = db.ref(`${APP.dbPath}/weeks/${adminWeek}/prompts`);
+  const wLabel = wname(WEEKS.find(x => x.key === adminWeek));
+  if (editingId) {
+    ref.child(editingId).update({ title, body, updatedAt: TS() })
+      .then(() => { toast("수정했습니다"); cancelEdit(); })
+      .catch(e => toast("저장 실패: " + e.message));
+  } else {
+    const order = weekPrompts(adminWeek).length;
+    ref.push({ title, body, order, createdAt: TS(), updatedAt: TS() })
+      .then(() => { toast(`${wLabel}에 등록했습니다`); cancelEdit(); })
+      .catch(e => toast("저장 실패: " + e.message));
+  }
+}
+
+// 한글 IME 조합 중 Enter 무시
+const composing = e => e.isComposing || e.keyCode === 229;
+
+if (isAdminMode) {
+  document.body.classList.add("is-admin");
+  auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).catch(() => {});
+  $("#loginForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const email = $("#adminEmail").value.trim();
+    const password = $("#pw").value;
+    try {
+      const result = await auth.signInWithEmailAndPassword(email, password);
+      if (result.user.uid !== APP.adminUid) {
+        await auth.signOut();
+        throw new Error("관리자 권한이 없는 계정입니다");
+      }
+      $("#pw").value = "";
+      toast("관리자로 입장했습니다");
+    } catch (err) {
+      setAdminLogged(false);
+      toast(err.message === "관리자 권한이 없는 계정입니다" ? err.message : "이메일 또는 비밀번호를 확인해 주세요");
+      $("#pw").select();
+    }
+  });
+  $("#pw").addEventListener("keydown", e => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    if (!composing(e)) $("#loginForm").requestSubmit();
+  });
+  $("#fTitle").addEventListener("keydown", e => {
+    if (e.key === "Enter") { if (composing(e)) return; e.preventDefault(); $("#fBody").focus(); }
+  });
+  $("#fBody").addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) { if (composing(e)) return; e.preventDefault(); savePrompt(); }
+  });
+  $("#saveBtn").addEventListener("click", savePrompt);
+  $("#tidyBtn").addEventListener("click", () => {
+    const ta = $("#fBody"), before = ta.value.split("\n").length;
+    ta.value = removeBlankLines(ta.value);
+    const removed = before - ta.value.split("\n").length;
+    toast(removed > 0 ? `빈 줄 ${removed}개를 없앴습니다` : "없앨 빈 줄이 없습니다");
+    ta.focus();
+  });
+  $("#cancelEdit").addEventListener("click", cancelEdit);
+  $("#tabBtnPrompts").addEventListener("click", () => showAdminTab("prompts"));
+  $("#tabBtnFeedback").addEventListener("click", () => showAdminTab("feedback"));
+  $("#logoutBtn").addEventListener("click", async () => {
+    await auth.signOut();
+    cancelEdit();
+    toast("관리자 모드를 종료했습니다");
+  });
+  auth.onAuthStateChanged(async user => {
+    if (user && user.uid === APP.adminUid) setAdminLogged(true);
+    else {
+      if (user) await auth.signOut();
+      setAdminLogged(false);
+    }
+  });
+  setTimeout(() => $("#adminEmail").focus(), 50);
+}
+
+/* ============================================================
+   실시간 구독
+============================================================ */
+db.ref(`${APP.dbPath}/weeks`).on("value", snap => {
+  const v = snap.val() || {};
+  data = {};
+  weekMeta = {};
+  Object.entries(v).forEach(([k, w]) => { data[k] = (w && w.prompts) || {}; weekMeta[k] = { feedbackOpen: !(w && w.feedbackOpen === false), published: !!(w && w.published) }; });
+  ensureCurrentWeek();
+  renderWeeks(); renderList();
+  if (isAdminMode && $("#admin").classList.contains("logged")) { renderAdminWeeks(); renderAdminList(); renderFbWeeks(); renderFbAdmin(); }
+  const dot = $("#liveDot");
+  dot.classList.add("on"); dot.innerHTML = `<span class="hide-sm">실시간 연결</span>`;
+}, err => {
+  const dot = $("#liveDot");
+  dot.classList.remove("on"); dot.innerHTML = `<span class="hide-sm">연결 오류</span>`;
+  $("#empty").hidden = false;
+  $("#empty").innerHTML = `<b>데이터를 불러올 수 없습니다</b>${esc(err.message)}`;
+});
+
+// 우클릭 메뉴 · 드래그 시작 차단 (복사 버튼만 사용하도록)
+document.addEventListener("contextmenu", e => { if (!e.target.closest("input,textarea")) e.preventDefault(); });
+document.addEventListener("dragstart", e => e.preventDefault());
+</script>
+</body>
+</html>
