@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>화성AI시민리더 양성과정 하반기 · 프롬프트</title>
+<title>프롬프트 실습</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
@@ -224,7 +224,7 @@ body.admin-on .week-btn.preview{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(
 <!-- 전역 내비 -->
 <div class="nav">
   <div class="nav-in">
-    <div class="nav-brand" id="navBrand">화성AI시민리더 양성과정 하반기</div>
+    <div class="nav-brand" id="navBrand">프롬프트 실습</div>
     <div class="nav-meta">
       <span class="live" id="liveDot"><span class="hide-sm">연결 중</span></span>
       <span>Made by <b id="navCredit"></b></span>
@@ -328,7 +328,7 @@ body.admin-on .week-btn.preview{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(
    설정 — 여기만 고치면 다른 과정에도 재사용할 수 있습니다
 ============================================================ */
 const APP = {
-  title: "화성시 AI시민리더 실습",
+  title: "프롬프트 실습",
   titleThin: "",                       // 제목 뒤에 가볍게 붙는 부분
   tagline: "수업에서 바로 쓰는 프롬프트를 한곳에.",
   credit: "정진수",                    // 제작자 표시
@@ -368,7 +368,7 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const isAdminMode = new URLSearchParams(location.search).get("mode") === "admin";
 
-document.title = `${APP.title} ${APP.titleThin} · 프롬프트`;
+document.title = `${APP.title} ${APP.titleThin}`.trim();
 $("#navBrand").textContent = `${APP.title} ${APP.titleThin}`;
 $("#title").innerHTML = `${esc(APP.title)} <span class="thin">${esc(APP.titleThin)}</span>`;
 $("#tagline").textContent = APP.tagline;
