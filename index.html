@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>프롬프트 실습</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue:#0071e3; --link:#0066cc; --signal:#2997ff;
@@ -217,9 +220,130 @@ body.admin-on .week-btn.preview{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(
   .list{padding:16px 12px 72px}
   .nav-meta .hide-sm{display:none}
 }
+
+/* ---------- Botanical editorial redesign ---------- */
+:root{
+  --blue:#304f47; --link:#304f47; --signal:#789489;
+  --carbon:#26322e; --frost:#f3f3ed; --ice:#e8eee8; --smoke:#3f4b46; --graphite:#56615c;
+  --ash:#747d78; --mist:#909893; --pebble:#dfe4dc; --hair:#ccd3cb; --white:#fffef9;
+  --sage:#647d76; --sage-dark:#405b55; --paper:#f7f6f0; --serif:"Noto Serif KR",Georgia,serif;
+}
+html{background:#5f7471}
+body{background:
+  radial-gradient(circle at 15% 10%,rgba(255,255,255,.11),transparent 32%),
+  linear-gradient(145deg,#718681,#4f6967);color:var(--carbon);padding:40px 24px}
+.site-shell{width:min(1180px,100%);min-height:calc(100vh - 80px);margin:0 auto;background:var(--paper);box-shadow:0 24px 70px rgba(25,45,42,.28);overflow:hidden}
+
+.nav{position:sticky;background:rgba(250,250,245,.92);border-bottom:1px solid rgba(48,79,71,.16);backdrop-filter:blur(16px)}
+.nav-in{max-width:1040px;padding:17px 32px}
+.nav-brand{font-family:var(--serif);font-size:15px;font-weight:600;letter-spacing:.16em}
+.nav-meta{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite)}
+.nav-meta .live::before{width:7px;height:7px;background:#aab5ad}
+.nav-meta .live.on::before{background:#668e78;box-shadow:0 0 0 3px rgba(102,142,120,.13)}
+
+.hero{min-height:540px;padding:118px 28px 92px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background-image:linear-gradient(rgba(248,246,237,.1),rgba(248,246,237,.08)),url("assets/hero-botanical.png");
+  background-size:cover;background-position:center;position:relative;border-bottom:12px solid var(--paper)}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,255,255,.38),transparent 58%);pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.hero .eyebrow{font-size:11px;font-weight:500;color:var(--sage-dark);letter-spacing:.3em;text-transform:uppercase;margin-bottom:22px}
+.hero h1{font-family:var(--serif);font-size:clamp(42px,7vw,76px);line-height:1.12;font-weight:500;letter-spacing:.08em;color:#2d3934;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.hero h1::after{content:"";display:block;width:42px;height:1px;background:var(--sage-dark);margin:25px auto 0}
+.hero .tag{margin-top:22px;font-family:var(--serif);font-size:clamp(15px,2vw,19px);font-weight:400;letter-spacing:.03em;color:#46544e}
+.hero .credit{margin-top:28px;font-size:10px;color:#5f6d67;letter-spacing:.2em;text-transform:uppercase}
+.hero .credit b{font-weight:600;color:#34443e}
+
+.weeks{max-width:1040px;margin:0 auto;padding:58px 28px 18px;gap:10px;background:var(--paper)}
+.weeks::before{content:"PRACTICE ARCHIVE";flex-basis:100%;font-family:var(--serif);font-size:13px;letter-spacing:.22em;color:var(--carbon);margin-bottom:22px}
+.weeks::after{content:"";position:absolute;width:36px;height:1px;background:var(--sage-dark);margin-top:-18px}
+.week-btn{min-width:86px;border-radius:0;padding:10px 18px;border:1px solid #74877f;color:var(--sage-dark);background:rgba(255,255,255,.3);font-size:13px;letter-spacing:.08em}
+.week-btn:hover:not(:disabled):not(.on){background:#e5ebe5;color:#243b34}
+.week-btn.on{background:var(--sage-dark);border-color:var(--sage-dark);color:#fffef8}
+.week-btn:disabled{background:#ecece6;border-color:#d8dbd5;color:#9aa19d}
+.week-btn .n{font-weight:500}
+.week-hint{padding:0 24px 34px;color:#818a85;letter-spacing:.04em}
+
+.week-head{max-width:1040px;padding:32px 28px 4px}
+.week-head h2{font-family:var(--serif);font-size:clamp(25px,3.6vw,38px);font-weight:500;letter-spacing:.025em}
+.week-head h2::after{content:"";display:block;width:34px;height:1px;background:var(--sage-dark);margin:18px auto 0}
+.week-head p{font-family:var(--serif);font-size:15px;color:var(--graphite);margin-top:16px}
+.week-head .tools{margin-top:20px}
+.week-head .count{font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+
+#list{max-width:1040px;padding:30px 28px 96px;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+#fbWrap{max-width:1040px;padding-left:28px!important;padding-right:28px!important;grid-template-columns:1fr}
+.card{position:relative;background:var(--white);border:0;border-radius:0;padding:28px;gap:12px 16px;box-shadow:0 10px 28px rgba(48,65,58,.10);overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:linear-gradient(90deg,#9bad9e,#3f6055)}
+.card .no{font-size:10px;color:var(--sage);letter-spacing:.2em}
+.card h3{font-family:var(--serif);font-size:21px;font-weight:500;line-height:1.45;letter-spacing:0}
+.card pre{margin-top:12px;font-size:14px;line-height:1.72;color:#435049;background:#f1f2ec;border:0;border-radius:0;padding:20px;max-height:500px}
+.card.collapsed pre{max-height:180px}
+.card .actions{align-self:center}
+
+.pill{border-radius:0;padding:8px 14px;font-size:11px;letter-spacing:.11em;text-transform:uppercase}
+.pill.fill{background:var(--sage-dark);color:#fff}
+.pill.fill:hover{background:#2f4a43}
+.pill.fill.done{background:#6e8978}
+.pill.line{border:1px solid var(--sage-dark);color:var(--sage-dark)}
+.pill.line:hover{background:#e7ece6}
+.pill.ghost{color:var(--sage-dark)}
+.pill.gray{border-color:#aab3ac;color:#56645d}
+.pill.gray:hover{background:#eef0ea}
+.pill.danger{border-color:#9f5048;color:#8a3d38}
+.pill.danger.armed{background:#8a3d38}
+.empty{max-width:1040px;padding:64px 24px 110px;font-family:var(--serif);color:var(--ash)}
+.empty b{font-family:var(--serif);font-size:24px;font-weight:500}
+
+.admin{background:#e8ede7;border-bottom:1px solid #bdc9c0}
+.admin-in{max-width:1040px;padding:34px 28px}
+.admin h2{font-family:var(--serif);font-size:25px;font-weight:500;letter-spacing:.02em}
+.admin h2 .badge{border-radius:0;background:var(--sage-dark);padding:4px 9px;font-family:var(--font);font-size:10px;letter-spacing:.12em}
+.admin .sub{margin-top:9px;color:#64716a;line-height:1.65}
+.login{margin-top:20px}
+.field{border:1px solid #aeb9b1;border-radius:0;background:#fffef9;color:var(--carbon)}
+.field:focus{border-color:var(--sage-dark);box-shadow:0 0 0 2px rgba(64,91,85,.15)}
+.editor,.arow,.stat,.frow,.fb,.fb-empty{border:0;border-radius:0;background:#fffef9;box-shadow:0 7px 20px rgba(48,65,58,.08)}
+.editor{padding:24px}
+.admin-tabs{border-color:#bdc9c0}
+.admin-tabs button{border-radius:0;letter-spacing:.05em}
+.admin-tabs button.on{background:var(--sage-dark);color:#fff}
+.arow.editing{outline:2px solid var(--sage)}
+.chip{border-radius:0;border-color:#aeb9b1;background:#fffef9}
+.chip.on{background:var(--sage-dark);border-color:var(--sage-dark)}
+.frow .meta .wk{border-radius:0;background:var(--sage-dark)}
+.fb .no{color:var(--sage);letter-spacing:.18em}
+.fb h3,.fb .done b{font-family:var(--serif);font-weight:500}
+.fb .send{border-radius:0;background:var(--sage-dark)}
+.fb .send:hover:not(:disabled){background:#2f4a43}
+.fb .mine{border-radius:0;background:#eff1eb;border-color:#d6dbd4}
+
+footer{border-top:0;background:#e1e7df;padding:38px 24px 42px;color:#5f6b65;letter-spacing:.08em;line-height:2}
+.toast{background:var(--sage-dark);color:#fff;border-radius:0;box-shadow:0 8px 24px rgba(28,46,40,.25)}
+
+@media (max-width:760px){
+  body{padding:0;background:var(--paper)}
+  .site-shell{min-height:100vh;margin:0;box-shadow:none}
+  .nav-in{padding:14px 18px}
+  .nav-brand{font-size:13px;letter-spacing:.09em}
+  .hero{min-height:470px;padding:88px 20px 68px;background-position:center}
+  .hero .eyebrow{font-size:10px;letter-spacing:.22em}
+  .hero h1{font-size:clamp(39px,13vw,58px);letter-spacing:.04em}
+  .hero .tag{max-width:290px;line-height:1.55}
+  .weeks{padding:44px 16px 16px;gap:8px}
+  .week-btn{min-width:72px;padding:9px 13px;font-size:12px}
+  .week-head{padding:28px 18px 4px}
+  #list{grid-template-columns:1fr;padding:22px 14px 72px;gap:16px}
+  #fbWrap{padding-left:14px!important;padding-right:14px!important}
+  .card{padding:22px;grid-template-columns:1fr}
+  .card .actions{justify-content:flex-start}
+  .admin-in{padding:28px 18px}
+  footer{padding:34px 18px}
+}
 </style>
 </head>
 <body>
+
+<div class="site-shell">
 
 <!-- 전역 내비 -->
 <div class="nav">
@@ -315,6 +439,7 @@ body.admin-on .week-btn.preview{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(
   <div id="footCredit"></div>
   <div>프롬프트는 수업 중 안내에 따라 복사해 사용하세요. 무단 배포를 삼가 주세요.</div>
 </footer>
+</div>
 
 <div class="toast" id="toast"></div>
 <!-- PDF 저장용 인쇄 문서 (화면에는 보이지 않고 인쇄할 때만 나타남) -->
